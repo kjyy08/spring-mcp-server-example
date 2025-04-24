@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: mcp-server-example
+  profiles:
+    active: dev
