@@ -13,7 +13,7 @@ public class ToolCallbackProviderConfig {
     private final UserService userService;
 
     @Bean
-    public ToolCallbackProvider recipeTools() {
+    public ToolCallbackProvider toolCallbackProvider() {
         return MethodToolCallbackProvider.builder()
                 .toolObjects(userService)
                 .build();

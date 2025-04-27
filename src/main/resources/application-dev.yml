@@ -1,9 +1,9 @@
 server:
   port: 8081
 
-logging:
-  pattern:
-    console:
+#logging:
+#  pattern:
+#    console:
 
 spring:
   main:

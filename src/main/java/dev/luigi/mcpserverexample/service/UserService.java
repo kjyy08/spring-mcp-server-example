@@ -79,6 +79,7 @@ public class UserService {
     }
 
     @Tool(name = "removeUserById", description = "사용자 ID를 기준으로 사용자를 삭제합니다. 특정 ID의 사용자를 시스템에서 완전히 제거해야 할 때 사용하세요. 이 작업은 되돌릴 수 없으니 신중하게 사용해야 합니다. 예: '아이디가 abc123인 사용자 삭제해줘', '특정 ID를 가진 계정을 제거해줘', '시스템에서 이 사용자를 완전히 제거해줘'")
+    @Transactional
     public void deleteUserById(
             @ToolParam(description = "삭제할 사용자의 고유 ID. 시스템이 자동으로 생성한 UUID 형식의 문자열입니다. 예: '550e8400-e29b-41d4-a716-446655440000'")
             String id) {
@@ -86,13 +87,15 @@ public class UserService {
     }
 
     @Tool(name = "removeUserByUsername", description = "사용자 이름을 기준으로 사용자를 삭제합니다. 사용자 ID를 모르지만 이름은 알고 있을 때 계정을 제거하려는 경우 사용하세요. 이 작업은 되돌릴 수 없으니 신중하게 사용해야 합니다. 예: '홍길동 사용자 계정 삭제해줘', '특정 사용자 이름으로 등록된 계정 제거해줘', '이 사용자 이름을 가진 계정을 시스템에서 지워줘'")
+    @Transactional
     public void deleteUserByUsername(
             @ToolParam(description = "삭제할 사용자의 이름. 사용자가 회원가입 시 입력한 고유한 아이디입니다. 대소문자를 구분합니다. 예: 'hong123', 'admin_user'")
             String username) {
         userRepository.deleteByUsername(username);
     }
 
-    @Tool(name = "createUser", description = "새로운 사용자를 시스템에 등록합니다. 새 계정을 생성하거나 신규 사용자를 추가할 때 사용하세요. 등록 전에 checkUserExists 도구로 사용자 이름 중복 여부를 확인하는 것이 좋습니다. 예: '새 사용자 계정 만들어줘', '관리자 권한을 가진 새 계정 생성해줘', '카카오 플랫폼으로 새 사용자 등록해줘'")
+    @Tool(name = "createUser", description = "새로운 사용자를 시스템에 등록하는 도구로 새 계정을 생성하거나 신규 사용자를 추가할 때 사용하세요. 등록 전에 checkUserExists 도구로 사용자 이름 중복 여부를 확인하는 것이 좋습니다. 예: '새 사용자 계정 만들어줘', '관리자 권한을 가진 새 계정 생성해줘', '카카오 플랫폼으로 새 사용자 등록해줘'")
+    @Transactional
     public UserResponseDTO saveUser(
             @ToolParam(description = "생성할 사용자의 정보. UserRequestDTO 객체는 다음 필드로 구성됩니다: username(사용자 이름, 필수), role(역할, ROLE_USER 또는 ROLE_ADMIN), platform(플랫폼, KAKAO/NAVER/GOOGLE 중 하나). 예: {\"username\": \"hong123\", \"role\": \"ROLE_USER\", \"platform\": \"KAKAO\"}")
             UserRequestDTO userRequestDTO) {
